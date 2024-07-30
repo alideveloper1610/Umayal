@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Analysis</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Analysis</h1>
+        <div>
+            <h2>NPS Scores by Parent Account</h2>
+            {{ graph_parent | safe }}
+        </div>
+        <div>
+            <h2>NPS Scores by GBE</h2>
+            {{ graph_gbe | safe }}
+        </div>
+    </div>
+</body>
+</html>
