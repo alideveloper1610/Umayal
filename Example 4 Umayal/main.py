@@ -3,6 +3,7 @@ import pandas as pd
 import plotly.express as px
 import os
 from textblob import TextBlob
+import statsmodels.api as sm
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'uploads'
@@ -66,11 +67,51 @@ def analyze_file(filename):
     else:
         graph_sentiment_parent = None
 
+    # Forecasting next period's NPS scores using ARIMAX
+    forecast_data = []
+    for account in nps_scores_parent['Parent Account'].unique():
+        account_data = nps_scores_parent.loc[nps_scores_parent['Parent Account'] == account]
+        account_sentiment = sentiment_scores_parent.loc[sentiment_scores_parent['Parent Account'] == account]
+        if not account_data.empty and not account_sentiment.empty:
+            account_data['Date'] = pd.to_datetime(account_data[['Year', 'Month']].assign(DAY=1))
+            account_data.set_index('Date', inplace=True)
+            account_sentiment['Date'] = pd.to_datetime(account_sentiment[['Year', 'Month']].assign(DAY=1))
+            account_sentiment.set_index('Date', inplace=True)
+            merged_data = account_data.join(account_sentiment, lsuffix='_nps', rsuffix='_sentiment')
+            endog = merged_data['NP Score']
+            exog = merged_data[['Sentiment']]
+
+            # Adding frequency to the date index
+            merged_data = merged_data.asfreq('MS')
+
+            try:
+                model = sm.tsa.ARIMA(endog, exog=exog, order=(1, 1, 1))
+                results = model.fit()
+                forecast = results.forecast(steps=1, exog=exog.iloc[-1:].values.reshape(1, -1))[0]
+                forecast_data.append({
+                    'Parent Account': account,
+                    'Year': merged_data.index[-1].year + (merged_data.index[-1].month == 12),
+                    'Month': (merged_data.index[-1].month % 12) + 1,
+                    'Forecasted NPS': forecast
+                })
+            except Exception as e:
+                print(f"Could not generate forecast for account {account}: {e}")
+                continue
+
+    forecast_df = pd.DataFrame(forecast_data)
+    fig_forecast = px.bar(forecast_df, x='Parent Account', y='Forecasted NPS', color='Parent Account',
+                          title='Forecasted NPS Scores for Next Period', text='Forecasted NPS')
+
+    # Convert the forecast figure to HTML
+    graph_forecast = fig_forecast.to_html(full_html=False)
+
     # Convert the figures to HTML
     graph_parent = fig_parent.to_html(full_html=False)
     graph_gbe = fig_gbe.to_html(full_html=False)
 
-    return render_template('analysis.html', graph_parent=graph_parent, graph_gbe=graph_gbe, graph_sentiment_parent=graph_sentiment_parent)
+    return render_template('analysis.html', graph_parent=graph_parent, graph_gbe=graph_gbe,
+                           graph_sentiment_parent=graph_sentiment_parent, graph_forecast=graph_forecast)
 
 if __name__ == '__main__':
     app.run(debug=True)
+
