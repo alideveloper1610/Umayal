@@ -23,6 +23,12 @@
             {{ graph_sentiment_parent | safe }}
         </div>
         {% endif %}
+        {% if graph_forecast %}
+        <div>
+            <h2>Forecasted NPS Scores for Next Period</h2>
+            {{ graph_forecast | safe }}
+        </div>
+        {% endif %}
     </div>
 </body>
 </html>
