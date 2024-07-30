@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Analysis</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 </head>
 <body>
     <div class="container">
@@ -16,6 +17,12 @@
             <h2>NPS Scores by GBE</h2>
             {{ graph_gbe | safe }}
         </div>
+        {% if graph_sentiment_parent %}
+        <div>
+            <h2>Sentiment Scores by Parent Account</h2>
+            {{ graph_sentiment_parent | safe }}
+        </div>
+        {% endif %}
     </div>
 </body>
 </html>
