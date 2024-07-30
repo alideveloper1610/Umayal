@@ -1,2 +1,73 @@
 # Umayal
 example flask web app for NPS analysis
+Project Structure 
+
+![image](https://github.com/user-attachments/assets/3d6c38fc-9459-4785-9826-89dbc0d00631)
+
+Libraries required 
+
+Package              Version
+-------------------- ------------
+beautifulsoup4       4.12.3
+blinker              1.8.2
+certifi              2024.7.4
+chardet              3.0.4
+charset-normalizer   3.3.2
+click                8.1.7
+cloudpickle          3.0.0
+colorama             0.4.6
+contourpy            1.2.1
+cycler               0.12.1
+dash                 2.17.1
+dash-core-components 2.0.0
+dash-html-components 2.0.0
+dash-table           5.0.0
+deep-translator      1.11.4
+et-xmlfile           1.1.0
+filelock             3.15.4
+Flask                3.0.3
+fonttools            4.53.1
+fsspec               2024.6.1
+googletrans          4.0.0rc1
+gym                  0.26.2
+gym-notices          0.0.8
+h11                  0.9.0
+h2                   3.2.0
+hpack                3.0.0
+hstspreload          2024.7.1
+httpcore             0.9.1
+httpx                0.13.3
+hyperframe           5.2.0
+idna                 2.10
+importlib_metadata   8.0.0
+intel-openmp         2021.4.0
+itsdangerous         2.2.0
+Jinja2               3.1.4
+joblib               1.4.2
+kiwisolver           1.4.5
+MarkupSafe           2.1.5
+matplotlib           3.9.1
+mkl                  2021.4.0
+mpmath               1.3.0
+nest-asyncio         1.6.0
+networkx             3.3
+nltk                 3.8.1
+numpy                1.23.5
+openpyxl             3.1.5
+packaging            24.1
+pandas               2.2.2
+patsy                0.5.6
+pillow               10.4.0
+pip                  24.0
+plotly               5.22.0
+textblob             0.18.0.post0
+torch                2.3.1
+tqdm                 4.66.4
+typing_extensions    4.12.2
+tzdata               2024.1
+urllib3              2.2.2
+Werkzeug             3.0.3
+wheel                0.43.0
+wordcloud            1.9.3
+zipp                 3.19.2
+
