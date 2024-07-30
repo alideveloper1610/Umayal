@@ -33,5 +33,6 @@ tqdm            4.66.4
 tzdata          2024.1
 Werkzeug        3.0.3
 wheel           0.43.0
+statsmodels
 
 
